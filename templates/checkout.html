@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Secure Checkout — Crispigamers</title><link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}"></head>
+<body>
+<header class="nav"><a class="brand" href="{{url_for('home')}}">CRISPI<span>GAMERS</span></a><a class="cart-link" href="{{url_for('cart')}}">🛒 <b class="cart-count">{{cart_count}}</b></a></header>
+<main class="container cart-page"><div class="cart-layout">
+<section class="panel">
+<div class="section-label">Secure your drop</div><h1 style="margin:5px 0 20px">Checkout</h1>
+{% if checkout_error %}<div class="notice"><strong>Checkout needs attention.</strong><br>{{checkout_error}}</div>{% endif %}
+<div class="checkout-trust"><span>🔒</span><div><strong>Secure payment powered by Stripe</strong><br><span class="muted">Your card details are entered directly on Stripe's secure checkout.</span></div></div>
+<div class="checkout-points"><span>✓ Credit & debit cards</span><span>✓ Apple Pay / Google Pay when available</span><span>✓ Shipping address collected securely</span><span>✓ Promo codes supported</span></div>
+<form method="post" action="{{url_for('create_checkout_session')}}">
+<button class="btn primary full" type="submit" {% if not stripe_enabled %}disabled{% endif %}>{% if stripe_enabled %}Continue to secure payment · ${{"%.2f"|format(total)}}{% else %}Stripe setup required{% endif %}</button>
+</form>
+<p class="muted small" style="margin-top:14px">You’ll be redirected to Stripe to complete payment. Crispigamers never stores your card number.</p>
+</section>
+<aside class="panel"><div class="section-label">Your order</div><h2 style="margin:5px 0 15px">Loadout</h2>{% for i in items %}<div class="summary-row"><span>{{i.name}}<small class="muted"><br>{{i.color}} · {{i.size}} × {{i.quantity}}</small></span><span>${{"%.2f"|format(i.subtotal_cents / 100)}}</span></div>{% endfor %}<div class="summary-total"><span>Total</span><span>${{"%.2f"|format(total)}}</span></div></aside>
+</div></main><footer>© 2026 Crispigamers · Official merch store</footer></body></html>

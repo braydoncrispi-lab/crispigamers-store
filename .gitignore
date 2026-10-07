@@ -1,0 +1,6 @@
+.env
+.env.save
+.venv/
+__pycache__/
+*.pyc
+orders.db

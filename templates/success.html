@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Order Complete — Crispigamers</title><link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}"></head>
+<body><header class="nav"><a class="brand" href="{{url_for('home')}}">CRISPI<span>GAMERS</span></a></header>
+<main class="container cart-page"><section class="panel empty">
+{% if paid %}<div style="font-size:5rem;text-shadow:0 0 30px #00f5ff">⚡</div><div class="section-label">Payment confirmed</div><h1 style="font-size:3rem;margin:7px 0">Drop secured.</h1><p class="muted">Order <strong>#{{order_id}}</strong> · <strong style="color:#00f5ff">${{"%.2f"|format(total)}}</strong></p><p class="muted" style="max-width:520px;margin:10px auto 24px">Your payment went through securely with Stripe. We saved your order and can use the shipping details you provided to fulfill it.</p>{% else %}<div style="font-size:5rem">⚠️</div><div class="section-label">Payment verification</div><h1 style="font-size:2.5rem;margin:7px 0">We’re checking your order.</h1><p class="muted" style="max-width:560px;margin:10px auto 24px">{{verification_error}}</p>{% endif %}
+<a class="btn primary" href="{{url_for('home')}}">Back to store →</a></section></main><footer>© 2026 Crispigamers · Official merch store</footer></body></html>
