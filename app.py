@@ -720,11 +720,38 @@ def not_found(_error):
 def server_error(_error):
     return render_template("500.html"), 500
 
+@app.route("/robots.txt")
+def robots_txt():
+    return (
+        "User-agent: *\n"
+        "Allow: /\n"
+        f"Sitemap: {BASE_URL.rstrip('/')}/sitemap.xml\n"
+    ), 200, {"Content-Type": "text/plain; charset=utf-8"}
+
+
+@app.route("/sitemap.xml")
+def sitemap_xml():
+    urls = [
+        url_for("home", _external=True),
+        url_for("cart", _external=True),
+    ]
+
+    for product in PRODUCTS:
+        urls.append(url_for("product_page", product_id=product["id"], _external=True))
+
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+
+    for page_url in urls:
+        xml += f"  <url><loc>{page_url}</loc></url>\n"
+
+    xml += "</urlset>\n"
+
+    return xml, 200, {"Content-Type": "application/xml; charset=utf-8"}
 
 # ============================================================
 # LOCAL DEVELOPMENT
 # ============================================================
-
 
 if __name__ == "__main__":
     app.run(
